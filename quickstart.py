@@ -1,0 +1,20 @@
+import os
+from openai import AzureOpenAI
+
+client = AzureOpenAI(
+  azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT"), 
+  api_key=os.getenv("AZURE_OPENAI_API_KEY"),  
+  api_version="2024-02-01"
+)
+
+response = client.chat.completions.create(
+    model="gpt-4o-mini", # model = "deployment_name".
+    messages=[
+        {"role": "system", "content": "You are a helpful butcher"},
+        {"role": "user", "content": "Hi there im looking for chicken breasts"},
+        {"role": "assistant", "content": "Yes, chicken breasts are in aisle 5"},
+        {"role": "user", "content": "Where can I find a steak?"},
+    ]
+)
+
+print(response.choices[0].message.content)
